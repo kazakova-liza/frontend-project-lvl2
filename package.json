@@ -1,0 +1,22 @@
+{
+  "name": "gendiff-liza",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kazakova-liza/frontend-project-lvl2.git"
+  },
+  "author": "Elizaveta Kazakova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kazakova-liza/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/kazakova-liza/frontend-project-lvl2#readme",
+  "dependencies": {
+    "node": "^13.8.0"
+  }
+}
