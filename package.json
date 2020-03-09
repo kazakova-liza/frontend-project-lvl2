@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "bin": {
-    "gendiff": "./bin/gendiff.js"
+    "gendiff": "src/bin/gendiff.js"
   },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kazakova-liza/frontend-project-lvl2.git"
@@ -20,11 +21,24 @@
   },
   "homepage": "https://github.com/kazakova-liza/frontend-project-lvl2#readme",
   "dependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/node": "^7.8.4",
+    "@babel/plugin-proposal-pipeline-operator": "^7.8.3",
     "babel-eslint": "^10.0.3",
+    "babel-jest": "^25.1.0",
     "commander": "^4.1.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.8.0",
+    "jest": "^25.1.0",
+    "jest-cli": "^25.1.0",
     "node": "^13.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/register": "^7.8.6"
   }
 }
