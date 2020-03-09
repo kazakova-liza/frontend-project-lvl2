@@ -1,0 +1,12 @@
+name: Node CI
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    steps:
+        - name: Run linter
+          run: |
+            make lint
