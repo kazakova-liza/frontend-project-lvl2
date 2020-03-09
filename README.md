@@ -4,4 +4,4 @@
 
 ![](https://github.com/kazakova-liza/frontend-project-lvl2/workflows/master/badge.svg)
 
-![Hi](https://github.com/kazakova-liza/frontend-project-lvl2/badge.svg)
+![](https://github.com/kazakova-liza/frontend-project-lvl2/badge.svg)
