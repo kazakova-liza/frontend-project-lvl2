@@ -2,4 +2,4 @@
 
 [![Build Status](https://travis-ci.org/kazakova-liza/frontend-project-lvl2.svg?branch=master)](https://travis-ci.org/kazakova-liza/frontend-project-lvl2)
 
-![](https://github.com/kazakova-liza/frontend-project-lvl2/workflows/.github/workflows/nodejs.yml/badge.svg)
+![Main](https://github.com/kazakova-liza/frontend-project-lvl2/workflows/.github/workflows/nodejs.yml/badge.svg)
