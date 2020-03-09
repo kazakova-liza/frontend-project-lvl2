@@ -2,6 +2,9 @@
   "name": "gendiff-liza",
   "version": "1.0.0",
   "description": "",
+  "files": [
+    "dist"
+  ],
   "bin": {
     "gendiff": "src/bin/gendiff.js"
   },
