@@ -14,10 +14,10 @@ const genDiff = (pathToFile1, pathToFile2) => {
   const keys1 = Object.keys(before);
   const keys2 = Object.keys(after);
 
-  let result = '{\n';
+  let result = '{';
   for (const key of keys1) {
     if (keys2.includes(key) && before[key] === after[key]) {
-      result += `    ${key}:`;
+      result += `\n    ${key}:`;
       result += ` ${after[key]}`;
     }
     if (keys2.includes(key) && before[key] !== after[key]) {
@@ -38,7 +38,7 @@ const genDiff = (pathToFile1, pathToFile2) => {
     }
   }
   result += '\n}';
-  console.log(result);
+  return result;
 };
 
 export default genDiff;

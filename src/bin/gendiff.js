@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const program = require('commander');
+import genDiff from '..';
 
-const gendiff = require('../index');
+const program = require('commander');
 
 let pathToFile1;
 let pathToFile2;
@@ -19,4 +19,4 @@ program
 
 program.parse(process.argv);
 
-gendiff.genDiff(pathToFile1, pathToFile2);
+console.log(genDiff(pathToFile1, pathToFile2));
