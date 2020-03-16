@@ -1,16 +1,5 @@
-const path = require('path');
-const fs = require('fs');
 
-const genDiff = (pathToFile1, pathToFile2) => {
-  const absolutePathToFile1 = path.resolve(pathToFile1);
-  const absolutePathToFile2 = path.resolve(pathToFile2);
-
-  const file1 = fs.readFileSync(absolutePathToFile1, 'utf8');
-  const file2 = fs.readFileSync(absolutePathToFile2, 'utf8');
-
-  const before = JSON.parse(file1);
-  const after = JSON.parse(file2);
-
+const genDiff = (before, after) => {
   const keys1 = Object.keys(before);
   const keys2 = Object.keys(after);
 
