@@ -1,5 +1,9 @@
 
-const genDiff = (before, after) => {
+const path = require('path');
+
+export const getFixturePath = (filename) => path.join(__dirname, '..', '__tests__', '__fixtures__', filename);
+
+export const genDiff = (before, after) => {
   const keys1 = Object.keys(before);
   const keys2 = Object.keys(after);
 
@@ -29,5 +33,3 @@ const genDiff = (before, after) => {
   result += '\n}';
   return result;
 };
-
-export default genDiff;

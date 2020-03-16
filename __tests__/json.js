@@ -1,5 +1,5 @@
 
-import genDiff from '../src';
+import { genDiff, getFixturePath } from '../src';
 import parser from '../src/parsers.js';
 
 test('generate diff from two different configs', () => {
@@ -11,8 +11,8 @@ test('generate diff from two different configs', () => {
   - follow: false
   + verbose: true
 }`;
-  const path1 = `${__dirname}/fixtures/JSON/before.json`;
-  const path2 = `${__dirname}/fixtures/JSON/after.json`;
+  const path1 = getFixturePath('before.json');
+  const path2 = getFixturePath('after.json');
 
   expect(genDiff(parser(path1), parser(path2))).toEqual(result);
 });
@@ -24,8 +24,8 @@ test('generate diff from two same configs', () => {
     proxy: 123.234.53.22
     follow: false
 }`;
-  const path1 = `${__dirname}/fixtures/JSON/before.json`;
-  const path2 = `${__dirname}/fixtures/JSON/before_copy.json`;
+  const path1 = getFixturePath('before.json');
+  const path2 = getFixturePath('before_copy.json');
 
   expect(genDiff(parser(path1), parser(path2))).toEqual(result);
 });
@@ -37,8 +37,8 @@ test('generate diff from two configs, first one is empty', () => {
   + host: hexlet.io
 }`;
 
-  const path1 = `${__dirname}/fixtures/JSON/empty_before.json`;
-  const path2 = `${__dirname}/fixtures/JSON/after.json`;
+  const path1 = getFixturePath('empty_before.json');
+  const path2 = getFixturePath('after.json');
 
   expect(genDiff(parser(path1), parser(path2))).toEqual(result);
 });
@@ -51,8 +51,8 @@ test('generate diff from two configs, second one is empty', () => {
   - follow: false
 }`;
 
-  const path1 = `${__dirname}/fixtures/JSON/before.json`;
-  const path2 = `${__dirname}/fixtures/JSON/empty_after.json`;
+  const path1 = getFixturePath('before.json');
+  const path2 = getFixturePath('empty_after.json');
 
   expect(genDiff(parser(path1), parser(path2))).toEqual(result);
 });

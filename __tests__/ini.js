@@ -1,6 +1,7 @@
 
-import genDiff from '../src';
+import { genDiff, getFixturePath } from '../src';
 import parser from '../src/parsers.js';
+
 
 test('generate diff from two different configs', () => {
   const result = `{
@@ -11,8 +12,8 @@ test('generate diff from two different configs', () => {
   - follow: false
   + verbose: true
 }`;
-  const path1 = `${__dirname}/fixtures/YAML/before.yml`;
-  const path2 = `${__dirname}/fixtures/YAML/after.yml`;
+  const path1 = getFixturePath('before.ini');
+  const path2 = getFixturePath('after.ini');
 
   expect(genDiff(parser(path1), parser(path2))).toEqual(result);
 });
@@ -24,8 +25,8 @@ test('generate diff from two same configs', () => {
     proxy: 123.234.53.22
     follow: false
 }`;
-  const path1 = `${__dirname}/fixtures/YAML/before.yml`;
-  const path2 = `${__dirname}/fixtures/YAML/before_copy.yml`;
+  const path1 = getFixturePath('before.ini');
+  const path2 = getFixturePath('before_copy.ini');
 
   expect(genDiff(parser(path1), parser(path2))).toEqual(result);
 });
@@ -37,8 +38,8 @@ test('generate diff from two configs, first one is empty', () => {
   + host: hexlet.io
 }`;
 
-  const path1 = `${__dirname}/fixtures/YAML/empty_before.yml`;
-  const path2 = `${__dirname}/fixtures/YAML/after.yml`;
+  const path1 = getFixturePath('empty_before.ini');
+  const path2 = getFixturePath('after.ini');
 
   expect(genDiff(parser(path1), parser(path2))).toEqual(result);
 });
@@ -51,8 +52,8 @@ test('generate diff from two configs, second one is empty', () => {
   - follow: false
 }`;
 
-  const path1 = `${__dirname}/fixtures/YAML/before.yml`;
-  const path2 = `${__dirname}/fixtures/YAML/empty_after.yml`;
+  const path1 = getFixturePath('before.ini');
+  const path2 = getFixturePath('empty_after.ini');
 
   expect(genDiff(parser(path1), parser(path2))).toEqual(result);
 });
