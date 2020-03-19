@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import genDiff from '..';
+import { genDiff } from '..';
 import parser from '../parsers';
 
 const program = require('commander');
