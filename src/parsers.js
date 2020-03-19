@@ -19,9 +19,7 @@ const parser = (pathToFile) => {
   if (format === '.yml') {
     return yaml.safeLoad(data);
   }
-  if (format === '.ini') {
-    return ini.parse(data);
-  }
+  return ini.parse(data);
 };
 
 export default parser;
