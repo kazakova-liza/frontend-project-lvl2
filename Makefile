@@ -1,6 +1,9 @@
 install:
 	npm install
 
+tree:
+	npx babel-node src/bin/genDiff.js src/before_tree.json src/after_tree.json
+
 json: 
 	npx babel-node src/bin/genDiff.js src/before.json src/after.json
 
