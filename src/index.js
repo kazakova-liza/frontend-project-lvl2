@@ -67,6 +67,13 @@ export const genDiff = (before, after) => {
 
 const printObj = (obj) => JSON.stringify(obj, null, '\t').replace(/"/g, '');
 
+const getValue = (value) => {
+  if (typeof value === 'object') {
+    return printObj(value);
+  }
+  return value;
+};
+
 export const printDiff = (diff, depth = 0) => {
   const keys = Object.keys(diff);
 
@@ -76,31 +83,16 @@ export const printDiff = (diff, depth = 0) => {
     const prefixIfChangedDeletedAdded = `\n${' '.repeat(2)}${'    '.repeat(depth)}`;
 
     if (diff[key].status === 'same') {
-      if (typeof diff[key].value === 'object') {
-        return `${acc}${prefixIfSameOrNoStatus}${printObj(diff[key].value)}`;
-      }
-      return `${acc}${prefixIfSameOrNoStatus}${diff[key].value}`;
+      return `${acc}${prefixIfSameOrNoStatus}${getValue(diff[key].value)}`;
     }
     if (diff[key].status === 'changed') {
-      if (typeof diff[key].newValue === 'object') {
-        return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${diff[key].oldValue}${prefixIfChangedDeletedAdded}+ ${key}: ${printObj(diff[key].newValue)}`;
-      }
-      if (typeof diff[key].oldValue === 'object') {
-        return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${printObj(diff[key].oldValue)}${prefixIfChangedDeletedAdded}+ ${key}: ${diff[key].newValue}`;
-      }
-      return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${diff[key].oldValue}${prefixIfChangedDeletedAdded}+ ${key}: ${diff[key].newValue}`;
+      return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${getValue(diff[key].oldValue)}${prefixIfChangedDeletedAdded}+ ${key}: ${getValue(diff[key].newValue)}`;
     }
     if (diff[key].status === 'deleted') {
-      if (typeof diff[key].value === 'object') {
-        return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${printObj(diff[key].value)}`;
-      }
-      return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${diff[key].value}`;
+      return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${getValue(diff[key].value)}`;
     }
     if (diff[key].status === 'added') {
-      if (typeof diff[key].value === 'object') {
-        return `${acc}${prefixIfChangedDeletedAdded}+ ${key}: ${printObj(diff[key].value)}`;
-      }
-      return `${acc}${prefixIfChangedDeletedAdded}+ ${key}: ${diff[key].value}`;
+      return `${acc}${prefixIfChangedDeletedAdded}+ ${key}: ${getValue(diff[key].value)}`;
     }
     return `${acc}${prefixIfSameOrNoStatus}${printDiff(diff[key], depth + 1)}`;
   }, '', 1);
