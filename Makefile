@@ -1,23 +1,14 @@
 install:
 	npm install
 
-json-tree:
-	npx babel-node src/bin/genDiff.js src/files/before_tree.json src/files/after_tree.json
-
-yml-tree:
-	npx babel-node src/bin/genDiff.js src/files/before_tree.yml src/files/after_tree.yml
-
-ini-tree:
-	npx babel-node src/bin/genDiff.js src/files/before_tree.ini src/files/after_tree.ini
-
-json: 
-	npx babel-node src/bin/genDiff.js src/files/before.json src/files/after.json
+json:
+	npx babel-node src/bin/genDiff.js __tests__/__fixtures__/before_tree.json __tests__/__fixtures__/after_tree_.json
 
 yml:
-	npx babel-node src/bin/genDiff.js src/files/before.yml src/files/after.yml
+	npx babel-node src/bin/genDiff.js __tests__/__fixtures__/before_tree.yml __tests__/__fixtures__/after_tree_.yml
 
 ini:
-	npx babel-node src/bin/genDiff.js src/files/before.ini src/files/after.ini
+	npx babel-node src/bin/genDiff.js __tests__/__fixtures__/before_tree.ini __tests__/__fixtures__/after_tree_.ini
 
 publish:
 	npm publish --dry-run

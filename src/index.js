@@ -65,7 +65,7 @@ export const genDiff = (before, after) => {
   return diff;
 };
 
-const printObj = (obj) => JSON.stringify(obj, null, '\t').replace(/"/g, '');
+const printObj = (obj) => JSON.stringify(obj, null, '      ').replace(/"/g, '');
 
 const getValue = (value) => {
   if (typeof value === 'object') {
@@ -86,7 +86,7 @@ export const printDiff = (diff, depth = 0) => {
       return `${acc}${prefixIfSameOrNoStatus}${getValue(diff[key].value)}`;
     }
     if (diff[key].status === 'changed') {
-      return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${getValue(diff[key].oldValue)}${prefixIfChangedDeletedAdded}+ ${key}: ${getValue(diff[key].newValue)}`;
+      return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${getValue(diff[key].oldValue)}${prefixIfChangedDeletedAdded}+ ${key}: ${getValue(diff[key].oldValue)}`;
     }
     if (diff[key].status === 'deleted') {
       return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${getValue(diff[key].value)}`;

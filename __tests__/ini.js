@@ -1,59 +1,133 @@
 
-import { printDiff, getFixturePath } from '../src';
+import { printDiff, genDiff, getFixturePath } from '../src';
 import parser from '../src/parsers.js';
 
 
 test('generate diff from two different configs', () => {
   const result = `{
-    host: hexlet.io
-  - timeout: 50
-  + timeout: 20
-  - proxy: 123.234.53.22
-  - follow: false
-  + verbose: true
+    common: {
+        setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: true
+        setting6: {
+            key: value
+          + ops: vops
+        }
+      + follow: false
+      + setting4: blah blah
+      + setting5: {
+      key5: value5
+}
+    }
+    group1: {
+      - baz: bas
+      + baz: bas
+        foo: bar
+      - nest: {
+      key: value
+}
+      + nest: {
+      key: value
+}
+    }
+  - group2: {
+      abc: 12345
+}
+  + group3: {
+      fee: 100500
+}
 }`;
-  const path1 = getFixturePath('before.ini');
-  const path2 = getFixturePath('after.ini');
+  const path1 = getFixturePath('before_tree.ini');
+  const path2 = getFixturePath('after_tree.ini');
 
-  expect(printDiff(parser(path1), parser(path2))).toEqual(result);
+  expect(printDiff(genDiff(parser(path1), parser(path2)))).toEqual(result);
 });
 
 test('generate diff from two same configs', () => {
   const result = `{
-    host: hexlet.io
-    timeout: 50
-    proxy: 123.234.53.22
-    follow: false
+    common: {
+        setting1: Value 1
+        setting2: 200
+        setting3: true
+        setting6: {
+            key: value
+        }
+    }
+    group1: {
+        baz: bas
+        foo: bar
+        nest: {
+            key: value
+        }
+    }
+    group2: {
+        abc: 12345
+    }
 }`;
-  const path1 = getFixturePath('before.ini');
-  const path2 = getFixturePath('before_copy.ini');
+  const path1 = getFixturePath('before_tree.ini');
+  const path2 = getFixturePath('before_tree.ini');
 
-  expect(printDiff(parser(path1), parser(path2))).toEqual(result);
+  expect(printDiff(genDiff(parser(path1), parser(path2)))).toEqual(result);
 });
 
 test('generate diff from two configs, first one is empty', () => {
   const result = `{
-  + timeout: 20
-  + verbose: true
-  + host: hexlet.io
+  + common: {
+      follow: false,
+      setting1: Value 1,
+      setting4: blah blah,
+      setting3: {
+            key: value
+      },
+      setting5: {
+            key5: value5
+      },
+      setting6: {
+            key: value,
+            ops: vops
+      }
+}
+  + group1: {
+      foo: bar,
+      baz: bars,
+      nest: str
+}
+  + group3: {
+      fee: 100500
+}
 }`;
 
-  const path1 = getFixturePath('empty_before.ini');
-  const path2 = getFixturePath('after.ini');
+  const path1 = getFixturePath('empty.ini');
+  const path2 = getFixturePath('after_tree.ini');
 
-  expect(printDiff(parser(path1), parser(path2))).toEqual(result);
+  expect(printDiff(genDiff(parser(path1), parser(path2)))).toEqual(result);
 });
 
 test('generate diff from two configs, second one is empty', () => {
   const result = `{
-  - host: hexlet.io
-  - timeout: 50
-  - proxy: 123.234.53.22
-  - follow: false
+  - common: {
+      setting1: Value 1,
+      setting2: 200,
+      setting3: true,
+      setting6: {
+            key: value
+      }
+}
+  - group1: {
+      baz: bas,
+      foo: bar,
+      nest: {
+            key: value
+      }
+}
+  - group2: {
+      abc: 12345
+}
 }`;
 
-  const path1 = getFixturePath('before.ini');
-  const path2 = getFixturePath('empty_after.ini');
+  const path1 = getFixturePath('before_tree.ini');
+  const path2 = getFixturePath('empty.ini');
 
-  expect(printDiff(parser(path1), parser(path2))).toEqual(result);
+  expect(printDiff(genDiff(parser(path1), parser(path2)))).toEqual(result);
 });
