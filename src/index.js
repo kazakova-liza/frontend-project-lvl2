@@ -4,6 +4,7 @@
 
 import plain from './formatters/plain';
 import tree from './formatters/tree';
+import json from './formatters/json';
 
 const path = require('path');
 
@@ -87,8 +88,10 @@ export const printDiff = (diff, format = 'tree') => {
   if (format === 'tree') {
     return tree(diff, 0);
   }
-
   if (format === 'plain') {
     return plain(diff, 0, '');
+  }
+  if (format === 'json') {
+    return json(diff);
   }
 };

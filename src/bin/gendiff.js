@@ -18,9 +18,6 @@ program
     pathToFile2 = secondConfig;
   });
 
-console.log(program.format);
-
-
 program.parse(process.argv);
 
 const before = parser(pathToFile1);
