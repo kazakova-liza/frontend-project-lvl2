@@ -1,3 +1,5 @@
+/* eslint-disable import/no-cycle */
+
 import { getValue } from '..';
 
 const plain = (diff, depth, rout) => {
