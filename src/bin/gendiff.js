@@ -7,7 +7,6 @@ const program = require('commander');
 
 let pathToFile1;
 let pathToFile2;
-// const format = 'plain';
 
 program
   .version('0.1.0')
@@ -17,8 +16,9 @@ program
   .action((firstConfig, secondConfig) => {
     pathToFile1 = firstConfig;
     pathToFile2 = secondConfig;
-    // format = type;
   });
+
+console.log(program.format);
 
 
 program.parse(process.argv);
@@ -26,4 +26,4 @@ program.parse(process.argv);
 const before = parser(pathToFile1);
 const after = parser(pathToFile2);
 
-console.log(printDiff(genDiff(before, after)));
+console.log(printDiff(genDiff(before, after), `${program.format}`));
