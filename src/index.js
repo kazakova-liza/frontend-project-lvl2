@@ -1,3 +1,9 @@
+/* eslint-disable import/no-cycle */
+/* eslint-disable consistent-return */
+
+
+import plain from './formatters/plain';
+import tree from './formatters/tree';
 
 const path = require('path');
 
@@ -65,37 +71,24 @@ export const genDiff = (before, after) => {
   return diff;
 };
 
-const printObj = (obj) => JSON.stringify(obj, null, '      ').replace(/"/g, '');
+export const printObj = (obj) => JSON.stringify(obj, null, '      ').replace(/"/g, '');
 
-const getValue = (value) => {
-  if (typeof value === 'object') {
+export const getValue = (value, format) => {
+  if (typeof value === 'object' && format === 'tree') {
     return printObj(value);
+  }
+  if (typeof value === 'object' && format === 'plain') {
+    return '[complex value]';
   }
   return value;
 };
 
-export const printDiff = (diff, depth = 0) => {
-  const keys = Object.keys(diff);
+export const printDiff = (diff, format = 'tree') => {
+  if (format === 'tree') {
+    return tree(diff, 0);
+  }
 
-
-  const result = keys.reduce((acc, key) => {
-    const prefixIfSameOrNoStatus = `\n${' '.repeat(4)}${'    '.repeat(depth)}${key}: `;
-    const prefixIfChangedDeletedAdded = `\n${' '.repeat(2)}${'    '.repeat(depth)}`;
-
-    if (diff[key].status === 'same') {
-      return `${acc}${prefixIfSameOrNoStatus}${getValue(diff[key].value)}`;
-    }
-    if (diff[key].status === 'changed') {
-      return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${getValue(diff[key].oldValue)}${prefixIfChangedDeletedAdded}+ ${key}: ${getValue(diff[key].oldValue)}`;
-    }
-    if (diff[key].status === 'deleted') {
-      return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${getValue(diff[key].value)}`;
-    }
-    if (diff[key].status === 'added') {
-      return `${acc}${prefixIfChangedDeletedAdded}+ ${key}: ${getValue(diff[key].value)}`;
-    }
-    return `${acc}${prefixIfSameOrNoStatus}${printDiff(diff[key], depth + 1)}`;
-  }, '', 1);
-
-  return `{${result}\n${'    '.repeat(depth)}}`;
+  if (format === 'plain') {
+    return plain(diff, 0, '');
+  }
 };
