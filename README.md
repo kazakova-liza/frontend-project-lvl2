@@ -14,12 +14,12 @@
 
 This project is designed to generate a diff between to config files.
 
-##### Acceptable config file formats:
+#### Acceptable config file formats:
 * .json
 * .yml
 * .ini
 
-##### Diff can be visualized in three different ways:
+#### Diff can be visualized in three different ways:
 * Tree
 <pre><code>{
     group1: {
