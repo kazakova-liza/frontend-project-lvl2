@@ -18,16 +18,16 @@ const plain = (diff, depth, rout) => {
     }
     if (diff[key].status === 'changed') {
       action = 'was changed';
-      suffix = `from ${getValue(diff[key].oldValue, 'plain')} to ${getValue(diff[key].newValue, 'plain')}`;
+      suffix = ` from ${getValue(diff[key].oldValue, 'plain')} to ${getValue(diff[key].newValue, 'plain')}`;
     }
     if (diff[key].status === 'deleted') {
       action = 'was deleted';
     }
     if (diff[key].status === 'added') {
       action = 'was added';
-      suffix = `with value: ${getValue(diff[key].value, 'plain')}`;
+      suffix = ` with value: ${getValue(diff[key].value, 'plain')}`;
     }
-    const text = `${acc}\nProperty ${propertyName} ${action} ${suffix}`;
+    const text = `${acc}\nProperty ${propertyName} ${action}${suffix}`;
     return text;
   }, '', 1);
 
