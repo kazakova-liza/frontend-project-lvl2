@@ -21,7 +21,6 @@ Acceptable config file formats:
 
 Diff can be visualized in three different ways:
 * Tree
-Example
 <pre><code>
 {
     group1: {
@@ -44,17 +43,13 @@ Example
 }
 </code></pre>
 * Plain
-Example
-<pre><code>
-Property common.setting1 has not changed
+<pre><code>Property common.setting1 has not changed
 Property common.setting2 was deleted
 Property common.setting3 was changed from true to [complex value]
 Property common.setting6.key has not changed
 </code></pre>
 * JSON
-Example
-<pre><code>
-{"common":{"status":"deleted","value":{"setting1":"Value 1","setting2":200,"setting3":true,"setting6":{"key":"value"}}},"group1":{"status":"deleted","value":{"baz":"bas","foo":"bar","nest":{"key":"value"}}},"group2":{"status":"deleted","value":{"abc":12345}}};
+<pre><code>{"common":{"status":"deleted","value":{"setting1":"Value 1","setting2":200,"setting3":true,"setting6":{"key":"value"}}},"group1":{"status":"deleted","value":{"baz":"bas","foo":"bar","nest":{"key":"value"}}},"group2":{"status":"deleted","value":{"abc":12345}}};
 </code></pre>
 
 
