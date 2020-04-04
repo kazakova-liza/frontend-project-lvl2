@@ -53,15 +53,13 @@ Property common.setting6.key has not changed
 
 ## Installation
 
-Run the following command in the command line:
-
 ```
 npm install gendiff-liza
 ```
 
 ## Execution
 
-Run the following command in the command line. Specific format of the diff is required as an argument.
+Specific format of the diff is required as an argument.
 
 ```
 gendiff --format=plain before.json after.json
