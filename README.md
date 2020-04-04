@@ -14,15 +14,14 @@
 
 This project is designed to generate a diff between to config files.
 
-Acceptable config file formats:
+##### Acceptable config file formats:
 * .json
 * .yml
 * .ini
 
-Diff can be visualized in three different ways:
+##### Diff can be visualized in three different ways:
 * Tree
-<pre><code>
-{
+<pre><code>{
     group1: {
       - baz: bas
       + baz: bas
@@ -52,21 +51,19 @@ Property common.setting6.key has not changed
 <pre><code>{"common":{"status":"deleted","value":{"setting1":"Value 1","setting2":200,"setting3":true,"setting6":{"key":"value"}}},"group1":{"status":"deleted","value":{"baz":"bas","foo":"bar","nest":{"key":"value"}}},"group2":{"status":"deleted","value":{"abc":12345}}};
 </code></pre>
 
-
-
 ## Installation
 
 Run the following command in the command line:
 
 ```
-npm install brain-games-liza
+npm install gendiff-liza
 ```
 
 ## Execution
 
-State the name of the game in command line
+Run the following command in the command line. Specific format of the diff is required as an argument.
 
 ```
-brain-even
+gendiff --format=plain before.json after.json
 ```
 
