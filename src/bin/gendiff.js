@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-import { printDiff, genDiff } from '..';
-import parser from '../parsers';
+import { genDiff } from '..';
 
 const program = require('commander');
 
@@ -20,7 +19,4 @@ program
 
 program.parse(process.argv);
 
-const before = parser(pathToFile1);
-const after = parser(pathToFile2);
-
-console.log(printDiff(genDiff(before, after), `${program.format}`));
+genDiff(pathToFile1, pathToFile2, `${program.format}`);
