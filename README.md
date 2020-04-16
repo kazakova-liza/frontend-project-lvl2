@@ -12,7 +12,7 @@
 
 ## About
 
-This project is designed to generate a diff between to config files.
+This project is designed to generate a diff between two config files.
 
 #### Acceptable config file formats:
 * .json
