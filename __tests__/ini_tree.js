@@ -1,6 +1,5 @@
 
-import { printDiff, genDiff, getFixturePath } from '../src';
-import parser from '../src/parsers.js';
+import { genDiff, getFixturePath } from '../src';
 
 
 test('generate diff from two different configs', () => {
@@ -41,7 +40,7 @@ test('generate diff from two different configs', () => {
   const path1 = getFixturePath('before_tree.ini');
   const path2 = getFixturePath('after_tree.ini');
 
-  expect(printDiff(genDiff(parser(path1), parser(path2)))).toEqual(result);
+  expect(genDiff(path1, path2, 'tree')).toEqual(result);
 });
 
 test('generate diff from two same configs', () => {
@@ -68,7 +67,7 @@ test('generate diff from two same configs', () => {
   const path1 = getFixturePath('before_tree.ini');
   const path2 = getFixturePath('before_tree.ini');
 
-  expect(printDiff(genDiff(parser(path1), parser(path2)))).toEqual(result);
+  expect(genDiff(path1, path2, 'tree')).toEqual(result);
 });
 
 test('generate diff from two configs, first one is empty', () => {
@@ -101,7 +100,7 @@ test('generate diff from two configs, first one is empty', () => {
   const path1 = getFixturePath('empty.ini');
   const path2 = getFixturePath('after_tree.ini');
 
-  expect(printDiff(genDiff(parser(path1), parser(path2)))).toEqual(result);
+  expect(genDiff(path1, path2, 'tree')).toEqual(result);
 });
 
 test('generate diff from two configs, second one is empty', () => {
@@ -129,5 +128,5 @@ test('generate diff from two configs, second one is empty', () => {
   const path1 = getFixturePath('before_tree.ini');
   const path2 = getFixturePath('empty.ini');
 
-  expect(printDiff(genDiff(parser(path1), parser(path2)))).toEqual(result);
+  expect(genDiff(path1, path2, 'tree')).toEqual(result);
 });

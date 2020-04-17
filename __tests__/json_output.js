@@ -1,5 +1,4 @@
-import { printDiff, genDiff, getFixturePath } from '../src';
-import parser from '../src/parsers.js';
+import { genDiff, getFixturePath } from '../src';
 
 test('generate diff from two different configs', () => {
   const result = '{"common":{"setting1":{"status":"same","value":"Value 1"},"setting2":{"status":"deleted","value":200},"setting3":{"status":"changed","oldValue":true,"newValue":{"key":"value"}},"setting6":{"key":{"status":"same","value":"value"},"ops":{"status":"added","value":"vops"}},"follow":{"status":"added","value":false},"setting4":{"status":"added","value":"blah blah"},"setting5":{"status":"added","value":{"key5":"value5"}}},"group1":{"baz":{"status":"changed","oldValue":"bas","newValue":"bars"},"foo":{"status":"same","value":"bar"},"nest":{"status":"changed","oldValue":{"key":"value"},"newValue":"str"}},"group2":{"status":"deleted","value":{"abc":12345}},"group3":{"status":"added","value":{"fee":100500}}}';
@@ -7,7 +6,7 @@ test('generate diff from two different configs', () => {
   const path1 = getFixturePath('before_tree.json');
   const path2 = getFixturePath('after_tree.json');
 
-  expect(printDiff(genDiff(parser(path1), parser(path2)), 'json')).toEqual(result);
+  expect(genDiff(path1, path2, 'json')).toEqual(result);
 });
 
 test('generate diff from two same configs', () => {
@@ -15,7 +14,7 @@ test('generate diff from two same configs', () => {
   const path1 = getFixturePath('before_tree.json');
   const path2 = getFixturePath('before_tree.json');
 
-  expect(printDiff(genDiff(parser(path1), parser(path2)), 'json')).toEqual(result);
+  expect(genDiff(path1, path2, 'json')).toEqual(result);
 });
 
 test('generate diff from two configs, first one is empty', () => {
@@ -24,7 +23,7 @@ test('generate diff from two configs, first one is empty', () => {
   const path1 = getFixturePath('empty.json');
   const path2 = getFixturePath('after_tree.json');
 
-  expect(printDiff(genDiff(parser(path1), parser(path2)), 'json')).toEqual(result);
+  expect(genDiff(path1, path2, 'json')).toEqual(result);
 });
 
 test('generate diff from two configs, second one is empty', () => {
@@ -33,5 +32,5 @@ test('generate diff from two configs, second one is empty', () => {
   const path1 = getFixturePath('before_tree.json');
   const path2 = getFixturePath('empty.json');
 
-  expect(printDiff(genDiff(parser(path1), parser(path2)), 'json')).toEqual(result);
+  expect(genDiff(path1, path2, 'json')).toEqual(result);
 });

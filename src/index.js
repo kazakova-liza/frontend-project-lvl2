@@ -91,7 +91,7 @@ export const genDiff = (pathToFile1, pathToFile2, format) => {
   const diff = createDiff(before, after);
   const result = printDiff(diff, format);
 
-  console.log(result);
+  return result;
 };
 
 export const printObj = (obj) => JSON.stringify(obj, null, '      ').replace(/"/g, '');

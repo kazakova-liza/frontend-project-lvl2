@@ -1,6 +1,5 @@
 
-import { printDiff, genDiff, getFixturePath } from '../src';
-import parser from '../src/parsers.js';
+import { genDiff, getFixturePath } from '../src';
 
 test('generate diff from two different configs', () => {
   const result = `
@@ -21,7 +20,7 @@ Property group3 was added with value: [complex value]`;
   const path1 = getFixturePath('before_tree.json');
   const path2 = getFixturePath('after_tree.json');
 
-  expect(printDiff(genDiff(parser(path1), parser(path2)), 'plain')).toEqual(result);
+  expect(genDiff(path1, path2, 'plain')).toEqual(result);
 });
 
 test('generate diff from two same configs', () => {
@@ -38,7 +37,7 @@ Property group2.abc has not changed`;
   const path1 = getFixturePath('before_tree.json');
   const path2 = getFixturePath('before_tree.json');
 
-  expect(printDiff(genDiff(parser(path1), parser(path2)), 'plain')).toEqual(result);
+  expect(genDiff(path1, path2, 'plain')).toEqual(result);
 });
 
 test('generate diff from two configs, first one is empty', () => {
@@ -50,7 +49,7 @@ Property group3 was added with value: [complex value]`;
   const path1 = getFixturePath('empty.json');
   const path2 = getFixturePath('after_tree.json');
 
-  expect(printDiff(genDiff(parser(path1), parser(path2)), 'plain')).toEqual(result);
+  expect(genDiff(path1, path2, 'plain')).toEqual(result);
 });
 
 test('generate diff from two configs, second one is empty', () => {
@@ -62,5 +61,5 @@ Property group2 was deleted`;
   const path1 = getFixturePath('before_tree.json');
   const path2 = getFixturePath('empty.json');
 
-  expect(printDiff(genDiff(parser(path1), parser(path2)), 'plain')).toEqual(result);
+  expect(genDiff(path1, path2, 'plain')).toEqual(result);
 });

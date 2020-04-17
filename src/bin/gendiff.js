@@ -19,4 +19,5 @@ program
 
 program.parse(process.argv);
 
-genDiff(pathToFile1, pathToFile2, `${program.format}`);
+const diff = genDiff(pathToFile1, pathToFile2, `${program.format}`);
+console.log(diff);
