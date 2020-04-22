@@ -1,14 +1,12 @@
-/* eslint-disable import/no-cycle */
-/* eslint-disable consistent-return */
 
-import parser from './parsers.js';
+import parseFile from './parsers.js';
 import plain from './formatters/plain';
 import tree from './formatters/tree';
 import json from './formatters/json';
 
 const path = require('path');
 
-export const getFixturePath = (filename) => path.join(__dirname, '..', '__tests__', '__fixtures__', filename);
+export const getFixturePath = (filename) => path.join(__dirname, '..', '__tests__', '__fixtures__', 'input_files', filename);
 
 const createDiff = (before, after) => {
   const keys1 = Object.keys(before);
@@ -85,8 +83,8 @@ const printDiff = (diff, format = 'tree') => {
 };
 
 export const genDiff = (pathToFile1, pathToFile2, format) => {
-  const before = parser(pathToFile1);
-  const after = parser(pathToFile2);
+  const before = parseFile(pathToFile1);
+  const after = parseFile(pathToFile2);
 
   const diff = createDiff(before, after);
   const result = printDiff(diff, format);

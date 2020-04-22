@@ -1,10 +1,11 @@
 
-const path = require('path');
-const fs = require('fs');
-const yaml = require('js-yaml');
-const ini = require('ini');
+import path from 'path';
+import fs from 'fs';
+import yaml from 'js-yaml';
+import ini from 'ini';
 
-const parser = (pathToFile) => {
+
+const parseFile = (pathToFile) => {
   const absolutePathToFile = path.resolve(pathToFile);
   const format = path.extname(absolutePathToFile);
   const data = fs.readFileSync(absolutePathToFile, 'utf8');
@@ -22,4 +23,4 @@ const parser = (pathToFile) => {
   return ini.parse(data);
 };
 
-export default parser;
+export default parseFile;
