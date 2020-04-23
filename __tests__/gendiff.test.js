@@ -22,7 +22,7 @@ describe('generate diff out of .json files', () => {
 const iniCases = [
   ['tree', 'before.ini', 'after.ini', results.treeOutput],
   ['plain', 'before.ini', 'after.ini', results.plainOutput],
-  ['json', 'before.ini', 'after.ini', results.jsonOutput],
+  ['json', 'before.ini', 'after.ini', results.jsonOutputForIni],
 ];
 
 describe('generate diff out of .ini files', () => {

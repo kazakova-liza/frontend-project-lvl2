@@ -1,5 +1,5 @@
 
-import { getValue } from '..';
+import { getValue } from './plain.js';
 
 const tree = (diff, depth) => {
   const keys = Object.keys(diff);

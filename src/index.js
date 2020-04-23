@@ -1,10 +1,11 @@
 
-import parseFile from './parsers.js';
-import plain from './formatters/plain';
+import path from 'path';
+import fs from 'fs';
+import parse from './parsers.js';
+import { plain } from './formatters/plain';
 import tree from './formatters/tree';
 import json from './formatters/json';
 
-const path = require('path');
 
 export const getFixturePath = (filename) => path.join(__dirname, '..', '__tests__', '__fixtures__', 'input_files', filename);
 
@@ -12,20 +13,11 @@ const createDiff = (before, after) => {
   const keys1 = Object.keys(before);
   const keys2 = Object.keys(after);
 
-  const areSame = keys2
-    .filter((key) => keys2.includes(key) && before[key] === after[key]);
-
-  const deleted = keys1
-    .filter((key) => !keys2.includes(key));
-
-  const added = keys2
-    .filter((key) => !keys1.includes(key));
-
   const allKeys = keys1.concat(keys2);
   const allKeysFiltered = allKeys.filter((key, i) => allKeys.indexOf(key) === i);
 
   const diff = allKeysFiltered.reduce((acc, key) => {
-    if (areSame.includes(key)) {
+    if (before[key] === after[key]) {
       return {
         ...acc,
         [key]: {
@@ -34,7 +26,7 @@ const createDiff = (before, after) => {
         },
       };
     }
-    if (deleted.includes(key)) {
+    if (!keys2.includes(key)) {
       return {
         ...acc,
         [key]: {
@@ -42,7 +34,7 @@ const createDiff = (before, after) => {
           value: before[key],
         },
       };
-    } if (added.includes(key)) {
+    } if (!keys1.includes(key)) {
       return {
         ...acc,
         [key]: {
@@ -82,24 +74,21 @@ const printDiff = (diff, format = 'tree') => {
   }
 };
 
+const readFile = (pathToFile) => {
+  const absolutePathToFile = path.resolve(pathToFile);
+  const fileData = fs.readFileSync(absolutePathToFile, 'utf8');
+  const fileFormat = path.extname(absolutePathToFile);
+
+  return { data: fileData, format: fileFormat };
+};
+
+
 export const genDiff = (pathToFile1, pathToFile2, format) => {
-  const before = parseFile(pathToFile1);
-  const after = parseFile(pathToFile2);
+  const before = parse(readFile(pathToFile1));
+  const after = parse(readFile(pathToFile2));
 
   const diff = createDiff(before, after);
   const result = printDiff(diff, format);
 
   return result;
-};
-
-export const printObj = (obj) => JSON.stringify(obj, null, '      ').replace(/"/g, '');
-
-export const getValue = (value, format) => {
-  if (typeof value === 'object' && format === 'tree') {
-    return printObj(value);
-  }
-  if (typeof value === 'object' && format === 'plain') {
-    return '[complex value]';
-  }
-  return value;
 };

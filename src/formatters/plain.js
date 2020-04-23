@@ -1,7 +1,17 @@
 
-import { getValue } from '..';
+const printObj = (obj) => JSON.stringify(obj, null, '      ').replace(/"/g, '');
 
-const plain = (diff, depth, rout) => {
+export const getValue = (value, format) => {
+  if (typeof value === 'object' && format === 'tree') {
+    return printObj(value);
+  }
+  if (typeof value === 'object' && format === 'plain') {
+    return '[complex value]';
+  }
+  return value;
+};
+
+export const plain = (diff, depth, rout) => {
   const keys = Object.keys(diff);
 
   const plainResult = keys.reduce((acc, key) => {
@@ -32,5 +42,3 @@ const plain = (diff, depth, rout) => {
 
   return plainResult;
 };
-
-export default plain;
