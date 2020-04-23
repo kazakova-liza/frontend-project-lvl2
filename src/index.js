@@ -62,16 +62,14 @@ const createDiff = (before, after) => {
   return diff;
 };
 
-const printDiff = (diff, format = 'tree') => {
+const printDiff = (diff, format) => {
   if (format === 'tree') {
     return tree(diff, 0);
   }
   if (format === 'plain') {
     return plain(diff, 0, '');
   }
-  if (format === 'json') {
-    return json(diff);
-  }
+  return json(diff);
 };
 
 const readFile = (pathToFile) => {
