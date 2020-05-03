@@ -39,7 +39,9 @@
     "jest": "^25.1.0",
     "jest-cli": "^25.1.0",
     "js-yaml": "^3.13.1",
-    "node": "^13.8.0"
+    "node": "^13.8.0",
+    "telnet": "0.0.1",
+    "txt-parser": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",

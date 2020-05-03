@@ -7,7 +7,9 @@ import tree from './formatters/tree';
 import json from './formatters/json';
 
 
-export const getFixturePath = (filename) => path.join(__dirname, '..', '__tests__', '__fixtures__', 'input_files', filename);
+export const getInputFixturePath = (filename) => path.join(__dirname, '..', '__tests__', '__fixtures__', 'input_files', filename);
+
+export const getOutputFixturePath = (filename) => path.join(__dirname, '..', '__tests__', '__fixtures__', 'results', filename);
 
 const createDiff = (before, after) => {
   const keys1 = Object.keys(before);
@@ -72,14 +74,30 @@ const printDiff = (diff, format) => {
   return json(diff);
 };
 
-const readFile = (pathToFile) => {
-  const absolutePathToFile = path.resolve(pathToFile);
-  const fileData = fs.readFileSync(absolutePathToFile, 'utf8');
-  const fileFormat = path.extname(absolutePathToFile);
-
-  return { data: fileData, format: fileFormat };
+const getDataFormat = (absolutePathToFile) => {
+  switch (path.extname(absolutePathToFile)) {
+    case '.json':
+      return 'JSON';
+    case '.yml':
+      return 'YML';
+    case '.ini':
+      return 'INI';
+    case '.txt':
+      return 'TXT';
+    default: {
+      console.log('Error: unexpected format %s', path.extname(absolutePathToFile));
+      throw Error('Unexpected format');
+    }
+  }
 };
 
+export const readFile = (pathToFile) => {
+  const absolutePathToFile = path.resolve(pathToFile);
+  const fileData = fs.readFileSync(absolutePathToFile, 'utf8');
+  const dataFormat = getDataFormat(pathToFile);
+
+  return { data: fileData, format: dataFormat };
+};
 
 export const genDiff = (pathToFile1, pathToFile2, format) => {
   const before = parse(readFile(pathToFile1));

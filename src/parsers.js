@@ -1,20 +1,27 @@
 
 import yaml from 'js-yaml';
 import ini from 'ini';
+import txtParser from 'txt-parser';
 
-
-const parse = (fileInfo) => {
-  if (fileInfo.data === '') {
-    return {};
+const parse = (data) => {
+  switch (data.format) {
+    case 'JSON': {
+      return JSON.parse(data.data);
+    }
+    case 'YML': {
+      return yaml.safeLoad(data.data);
+    }
+    case 'INI': {
+      return ini.parse(data.data);
+    }
+    case 'TXT': {
+      return txtParser.parseFile(data.data);
+    }
+    default: {
+      console.log('Error: unexpected format %s', data.format);
+      throw Error('Unexpected format or empty data');
+    }
   }
-
-  if (fileInfo.format === '.json') {
-    return JSON.parse(fileInfo.data);
-  }
-  if (fileInfo.format === '.yml') {
-    return yaml.safeLoad(fileInfo.data);
-  }
-  return ini.parse(fileInfo.data);
 };
 
 export default parse;
