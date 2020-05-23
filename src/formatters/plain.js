@@ -1,44 +1,52 @@
 
-const printObj = (obj) => JSON.stringify(obj, null, '      ').replace(/"/g, '');
-
-export const getValue = (value, format) => {
-  if (typeof value === 'object' && format === 'tree') {
-    return printObj(value);
-  }
-  if (typeof value === 'object' && format === 'plain') {
+const getPlainValue = (value) => {
+  if (typeof value === 'object') {
     return '[complex value]';
   }
   return value;
 };
 
-export const plain = (diff, depth, rout) => {
-  const keys = Object.keys(diff);
+const getAction = (element) => {
+  if (element.status === 'same') {
+    return 'has not changed';
+  }
+  if (element.status === 'changed') {
+    return 'was changed';
+  }
+  if (element.status === 'deleted') {
+    return 'was deleted';
+  }
+  return 'was added';
+};
 
-  const plainResult = keys.reduce((acc, key) => {
-    let action;
-    let suffix = '';
-    const propertyName = rout + key;
+const getSuffix = (element) => {
+  if (element.status === 'same') {
+    return '';
+  }
+  if (element.status === 'changed') {
+    return ` from ${getPlainValue(element.valueBefore)} to ${getPlainValue(element.valueAfter)}`;
+  }
+  if (element.status === 'deleted') {
+    return '';
+  }
+  return ` with value: ${getPlainValue(element.valueAfter)}`;
+};
 
-    if (diff[key].status === undefined) {
-      return `${acc}${plain(diff[key], depth + 1, `${propertyName}.`)}`;
+export const plain = (diff, depth = 0, rout = '') => {
+  const plainResult = diff.reduce((acc, element) => {
+    const propertyName = rout + element.name;
+
+    if (element.status === undefined) {
+      return `${acc}${plain(element.children, depth + 1, `${propertyName}.`)}`;
     }
-    if (diff[key].status === 'same') {
-      action = 'has not changed';
-    }
-    if (diff[key].status === 'changed') {
-      action = 'was changed';
-      suffix = ` from ${getValue(diff[key].oldValue, 'plain')} to ${getValue(diff[key].newValue, 'plain')}`;
-    }
-    if (diff[key].status === 'deleted') {
-      action = 'was deleted';
-    }
-    if (diff[key].status === 'added') {
-      action = 'was added';
-      suffix = ` with value: ${getValue(diff[key].value, 'plain')}`;
-    }
-    const text = `${acc}\nProperty ${propertyName} ${action}${suffix}`;
-    return text;
-  }, '', 1);
+    const action = getAction(element);
+    const suffix = getSuffix(element);
+
+
+    return `${acc}\nProperty ${propertyName} ${action}${suffix}`;
+  }, '');
 
   return plainResult;
 };
+
+export default plain;

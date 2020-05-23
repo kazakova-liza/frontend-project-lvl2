@@ -1,22 +1,21 @@
 
-import {
-  genDiff, getInputFixturePath, getOutputFixturePath, readFile,
-} from '../src';
+import { genDiff, readFile } from '../src';
+import { getInputFixturePath, getOutputFixturePath } from './utils.js';
 
 describe.each([
   ['before.json', 'after.json'],
   ['before.yml', 'after.yml'],
   ['before.ini', 'after.ini'],
-])('', (file1, file2) => {
+])('%p', (fileName1, fileName2) => {
   test.each([
-    ['tree', 'tree.txt'],
-    ['plain', 'plain.txt'],
+    ['tree', 'tree.ini'],
+    ['plain', 'plain.ini'],
     ['json', 'json.json'],
   ])('%p', (format, result) => {
-    const path1 = getInputFixturePath(file1);
-    const path2 = getInputFixturePath(file2);
+    const path1 = getInputFixturePath(fileName1);
+    const path2 = getInputFixturePath(fileName2);
     const pathToResult = getOutputFixturePath(result);
-    const expectedResult = readFile(pathToResult).data;
+    const expectedResult = readFile(pathToResult);
     const diff = genDiff(path1, path2, format);
     expect(diff).toEqual(expectedResult);
   });

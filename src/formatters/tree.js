@@ -1,27 +1,40 @@
+const printObj = (obj, depth) => JSON.stringify(obj, null, '      '.repeat(depth)).replace(/"/g, '');
 
-import { getValue } from './plain.js';
+const getTreeValue = (value, depth) => {
+  if (typeof value === 'object') {
+    return printObj(value, depth);
+  }
+  return value;
+};
 
-const tree = (diff, depth) => {
-  const keys = Object.keys(diff);
+const getPrefix = (element, depth) => {
+  if (element.status === 'same') {
+    return `\n${' '.repeat(4)}${'    '.repeat(depth)}${element.name}: `;
+  }
+  if (element.status === 'changed' || element.status === 'deleted' || element.status === 'added') {
+    return `\n${' '.repeat(2)}${'    '.repeat(depth)}`;
+  }
+  return `\n${' '.repeat(4)}${'    '.repeat(depth)}${element.name}: `;
+};
 
-  const result = keys.reduce((acc, key) => {
-    const prefixIfSameOrNoStatus = `\n${' '.repeat(4)}${'    '.repeat(depth)}${key}: `;
-    const prefixIfChangedDeletedAdded = `\n${' '.repeat(2)}${'    '.repeat(depth)}`;
+const tree = (diff, depth = 0) => {
+  const result = diff.map((element) => {
+    const prefix = getPrefix(element, depth);
 
-    if (diff[key].status === 'same') {
-      return `${acc}${prefixIfSameOrNoStatus}${getValue(diff[key].value, 'tree')}`;
+    if (element.status === undefined) {
+      return `${prefix}${tree(element.children, depth + 1)}`;
     }
-    if (diff[key].status === 'changed') {
-      return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${getValue(diff[key].oldValue, 'tree')}${prefixIfChangedDeletedAdded}+ ${key}: ${getValue(diff[key].oldValue, 'tree')}`;
+    if (element.status === 'same') {
+      return `${prefix}${getTreeValue(element.valueBefore, depth)}`;
     }
-    if (diff[key].status === 'deleted') {
-      return `${acc}${prefixIfChangedDeletedAdded}- ${key}: ${getValue(diff[key].value, 'tree')}`;
+    if (element.status === 'changed') {
+      return `${prefix}- ${element.name}: ${getTreeValue(element.valueBefore)}${prefix}+ ${element.name}: ${getTreeValue(element.valueAfter)}`;
     }
-    if (diff[key].status === 'added') {
-      return `${acc}${prefixIfChangedDeletedAdded}+ ${key}: ${getValue(diff[key].value, 'tree')}`;
+    if (element.status === 'deleted') {
+      return `${prefix}- ${element.name}: ${getTreeValue(element.valueBefore)}`;
     }
-    return `${acc}${prefixIfSameOrNoStatus}${tree(diff[key], depth + 1)}`;
-  }, '', 1);
+    return `${prefix}+ ${element.name}: ${getTreeValue(element.valueAfter)}`;
+  });
 
   return `{${result}\n${'    '.repeat(depth)}}`;
 };
