@@ -18,22 +18,23 @@ const getPrefix = (element, depth) => {
 };
 
 const tree = (diff, depth = 0) => {
+  console.log(diff);
   const result = diff.map((element) => {
     const prefix = getPrefix(element, depth);
 
-    if (element.status === undefined) {
+    if (element.children !== undefined) {
       return `${prefix}${tree(element.children, depth + 1)}`;
     }
     if (element.status === 'same') {
       return `${prefix}${getTreeValue(element.valueBefore, depth)}`;
     }
     if (element.status === 'changed') {
-      return `${prefix}- ${element.name}: ${getTreeValue(element.valueBefore)}${prefix}+ ${element.name}: ${getTreeValue(element.valueAfter)}`;
+      return `${prefix}- ${element.name}: ${getTreeValue(element.valueBefore, depth)}${prefix}+ ${element.name}: ${getTreeValue(element.valueAfter, depth)}`;
     }
     if (element.status === 'deleted') {
-      return `${prefix}- ${element.name}: ${getTreeValue(element.valueBefore)}`;
+      return `${prefix}- ${element.name}: ${getTreeValue(element.valueBefore, depth)}`;
     }
-    return `${prefix}+ ${element.name}: ${getTreeValue(element.valueAfter)}`;
+    return `${prefix}+ ${element.name}: ${getTreeValue(element.valueAfter, depth)}`;
   });
 
   return `{${result}\n${'    '.repeat(depth)}}`;
