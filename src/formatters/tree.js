@@ -18,7 +18,6 @@ const getPrefix = (element, depth) => {
 };
 
 const tree = (diff, depth = 0) => {
-  console.log(diff);
   const result = diff.map((element) => {
     const prefix = getPrefix(element, depth);
 
