@@ -32,12 +32,12 @@ const getSuffix = (element) => {
   return ` with value: ${getPlainValue(element.valueAfter)}`;
 };
 
-export const plain = (diff, depth = 0, rout = '') => {
+export const makePlain = (diff, depth = 0, rout = '') => {
   const plainResult = diff.reduce((acc, element) => {
     const propertyName = rout + element.name;
 
     if (element.status === undefined) {
-      return `${acc}${plain(element.children, depth + 1, `${propertyName}.`)}`;
+      return `${acc}${makePlain(element.children, depth + 1, `${propertyName}.`)}`;
     }
     const action = getAction(element);
     const suffix = getSuffix(element);
@@ -49,4 +49,4 @@ export const plain = (diff, depth = 0, rout = '') => {
   return plainResult;
 };
 
-export default plain;
+export default makePlain;

@@ -1,9 +1,9 @@
 import path from 'path';
 import fs from 'fs';
 import { has } from 'lodash';
-import { plain } from './formatters/plain';
-import tree from './formatters/tree';
-import json from './formatters/json';
+import { makePlain } from './formatters/plain';
+import makeTree from './formatters/tree';
+import makeJson from './formatters/json';
 
 export const createDiff = (before, after) => {
   const keys1 = Object.keys(before);
@@ -11,7 +11,7 @@ export const createDiff = (before, after) => {
 
   const allKeys = keys1.concat(keys2);
   const diff = allKeys
-    .filter((key, index) => allKeys.indexOf(key) === index)
+    .reduce((unique, key) => (unique.includes(key) ? unique : [...unique, key]), [])
     .map((key) => {
       if (has(before, key) && !has(after, key)) {
         return {
@@ -57,12 +57,12 @@ export const createDiff = (before, after) => {
 
 export const transformDiffToFormat = (diff, format) => {
   if (format === 'tree') {
-    return tree(diff);
+    return makeTree(diff);
   }
   if (format === 'plain') {
-    return plain(diff);
+    return makePlain(diff);
   }
-  return json(diff);
+  return makeJson(diff);
 };
 
 export const getDataFormat = (absolutePathToFile) => path.extname(absolutePathToFile).slice(1);
