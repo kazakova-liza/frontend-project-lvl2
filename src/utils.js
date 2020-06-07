@@ -1,17 +1,14 @@
 import path from 'path';
-import fs from 'fs';
-import { has } from 'lodash';
-import { makePlain } from './formatters/plain';
-import makeTree from './formatters/tree';
-import makeJson from './formatters/json';
+import { has, union } from 'lodash';
+
 
 export const createDiff = (before, after) => {
   const keys1 = Object.keys(before);
   const keys2 = Object.keys(after);
 
-  const allKeys = keys1.concat(keys2);
-  const diff = allKeys
-    .reduce((unique, key) => (unique.includes(key) ? unique : [...unique, key]), [])
+  const uniqueKeys = union(keys1, keys2);
+
+  const diff = uniqueKeys
     .map((key) => {
       if (has(before, key) && !has(after, key)) {
         return {
@@ -51,25 +48,10 @@ export const createDiff = (before, after) => {
           status: 'changed',
         };
       }
+      throw Error('Unexpected key:', key);
     });
   return diff;
 };
 
-export const transformDiffToFormat = (diff, format) => {
-  if (format === 'tree') {
-    return makeTree(diff);
-  }
-  if (format === 'plain') {
-    return makePlain(diff);
-  }
-  return makeJson(diff);
-};
 
 export const getDataFormat = (absolutePathToFile) => path.extname(absolutePathToFile).slice(1);
-
-export const readFile = (pathToFile) => {
-  const absolutePathToFile = path.resolve(pathToFile);
-  const fileData = fs.readFileSync(absolutePathToFile, 'utf8');
-
-  return fileData;
-};
