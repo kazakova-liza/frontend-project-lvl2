@@ -1,8 +1,8 @@
-import path from 'path';
+
 import { has, union } from 'lodash';
 
 
-export const createDiff = (before, after) => {
+const createDiff = (before, after) => {
   const keys1 = Object.keys(before);
   const keys2 = Object.keys(after);
 
@@ -53,5 +53,4 @@ export const createDiff = (before, after) => {
   return diff;
 };
 
-
-export const getDataFormat = (absolutePathToFile) => path.extname(absolutePathToFile).slice(1);
+export default createDiff;

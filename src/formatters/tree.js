@@ -3,7 +3,7 @@ const printObj = (obj, depth) => {
   const keys = Object.keys(obj);
   const space = `\n${'    '.repeat(depth + 1)}`;
   const result = keys.map((key) => `${space}${key}: ${obj[key]}`);
-  return `{${result}\n${'    '.repeat(depth + 1)}}`;
+  return `{${result}\n${'    '.repeat(depth)}}`;
 };
 
 const getTreeValue = (value, depth) => {
