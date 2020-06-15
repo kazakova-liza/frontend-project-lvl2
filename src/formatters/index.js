@@ -2,14 +2,17 @@ import { makePlain } from './plain';
 import makeTree from './tree';
 import makeJson from './json';
 
-const transformDiffToFormat = (diff, format) => {
-  if (format === 'tree') {
-    return makeTree(diff);
+const render = (diff, format) => {
+  switch (format) {
+    case 'tree':
+      return makeTree(diff);
+    case 'plain':
+      return makePlain(diff);
+    case 'json':
+      return makeJson(diff);
+    default:
+      throw Error('Unexpected format:', format);
   }
-  if (format === 'plain') {
-    return makePlain(diff);
-  }
-  return makeJson(diff);
 };
 
-export default transformDiffToFormat;
+export default render;

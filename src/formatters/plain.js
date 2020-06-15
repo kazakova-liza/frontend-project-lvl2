@@ -1,52 +1,32 @@
 
-const getPlainValue = (value) => {
+const getValue = (value) => {
   if (typeof value === 'object') {
     return '[complex value]';
   }
   return value;
 };
 
-const getAction = (element) => {
-  if (element.status === 'same') {
-    return 'has not changed';
-  }
-  if (element.status === 'changed') {
-    return 'was changed';
-  }
-  if (element.status === 'deleted') {
-    return 'was deleted';
-  }
-  return 'was added';
-};
-
-const getSuffix = (element) => {
-  if (element.status === 'same') {
-    return '';
-  }
-  if (element.status === 'changed') {
-    return ` from ${getPlainValue(element.valueBefore)} to ${getPlainValue(element.valueAfter)}`;
-  }
-  if (element.status === 'deleted') {
-    return '';
-  }
-  return ` with value: ${getPlainValue(element.valueAfter)}`;
-};
 
 export const makePlain = (diff, depth = 0, rout = '') => {
-  const plainResult = diff.reduce((acc, element) => {
+  const plainResult = diff.map((element) => {
     const propertyName = rout + element.name;
 
-    if (element.status === undefined) {
-      return `${acc}${makePlain(element.children, depth + 1, `${propertyName}.`)}`;
+    if (element.status === 'same') {
+      return `Property ${propertyName} has not been changed`;
     }
-    const action = getAction(element);
-    const suffix = getSuffix(element);
+    if (element.status === 'added') {
+      return `Property ${propertyName} has been added with value: ${getValue(element.valueAfter)}`;
+    }
+    if (element.status === 'deleted') {
+      return `Property ${propertyName} has been deleted`;
+    }
+    if (element.status === 'changed') {
+      return `Property ${propertyName} has been changed from ${getValue(element.valueBefore)} to ${getValue(element.valueAfter)}`;
+    }
+    return `${makePlain(element.children, depth + 1, `${propertyName}.`)}`;
+  }, []);
 
-
-    return `${acc}\nProperty ${propertyName} ${action}${suffix}`;
-  }, '');
-
-  return plainResult;
+  return plainResult.join('\n');
 };
 
 export default makePlain;

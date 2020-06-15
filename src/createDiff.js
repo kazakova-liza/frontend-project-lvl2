@@ -10,7 +10,7 @@ const createDiff = (before, after) => {
 
   const diff = uniqueKeys
     .map((key) => {
-      if (has(before, key) && !has(after, key)) {
+      if (!has(after, key)) {
         return {
           name: key,
           valueBefore: before[key],
@@ -18,7 +18,7 @@ const createDiff = (before, after) => {
           status: 'deleted',
         };
       }
-      if (!has(before, key) && has(after, key)) {
+      if (!has(before, key)) {
         return {
           name: key,
           valueBefore: null,
@@ -26,29 +26,26 @@ const createDiff = (before, after) => {
           status: 'added',
         };
       }
-      if (has(before, key) && has(after, key)) {
-        if (typeof before[key] === 'object' && typeof after[key] === 'object') {
-          return {
-            name: key,
-            children: createDiff(before[key], after[key]),
-          };
-        }
-        if (before[key] === after[key]) {
-          return {
-            name: key,
-            valueBefore: before[key],
-            valueAfter: after[key],
-            status: 'same',
-          };
-        }
+      if (typeof before[key] === 'object' && typeof after[key] === 'object') {
+        return {
+          name: key,
+          children: createDiff(before[key], after[key]),
+        };
+      }
+      if (before[key] === after[key]) {
         return {
           name: key,
           valueBefore: before[key],
           valueAfter: after[key],
-          status: 'changed',
+          status: 'same',
         };
       }
-      throw Error('Unexpected key:', key);
+      return {
+        name: key,
+        valueBefore: before[key],
+        valueAfter: after[key],
+        status: 'changed',
+      };
     });
   return diff;
 };
