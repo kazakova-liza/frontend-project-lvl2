@@ -1,8 +1,6 @@
 # frontend-project-lvl2
 
-## Travis
-
-[![Build Status](https://travis-ci.org/kazakova-liza/frontend-project-lvl2.svg?branch=master)](https://travis-ci.org/kazakova-liza/frontend-project-lvl2)
+[![Node CI](https://github.com/kazakova-liza/frontend-project-lvl2/workflows/Node%20CI/badge.svg)](https://github.com/hkazakova-liza/frontend-project-lvl2/actions)
 
 ## CodeClimate
 
