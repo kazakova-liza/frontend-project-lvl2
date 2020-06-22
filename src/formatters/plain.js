@@ -7,23 +7,24 @@ const getValue = (value) => {
 };
 
 
-export const makePlain = (diff, depth = 0, rout = '') => {
+export const makePlain = (diff, depth = 0, route = '') => {
   const plainResult = diff.map((element) => {
-    const propertyName = rout + element.name;
+    const ancestor = `${route}${element.name}`;
 
-    if (element.status === 'same') {
-      return `Property ${propertyName} has not been changed`;
+    switch (element.status) {
+      case 'same':
+        return `Property ${ancestor} has not been changed`;
+      case 'changed':
+        return `Property ${ancestor} has been changed from ${getValue(element.valueBefore)} to ${getValue(element.valueAfter)}`;
+      case 'deleted':
+        return `Property ${ancestor} has been deleted`;
+      case 'added':
+        return `Property ${ancestor} has been added with value: ${getValue(element.valueAfter)}`;
+      case undefined:
+        return `${makePlain(element.children, depth + 1, `${ancestor}.`)}`;
+      default:
+        throw Error('Unexpected status:', element.status);
     }
-    if (element.status === 'added') {
-      return `Property ${propertyName} has been added with value: ${getValue(element.valueAfter)}`;
-    }
-    if (element.status === 'deleted') {
-      return `Property ${propertyName} has been deleted`;
-    }
-    if (element.status === 'changed') {
-      return `Property ${propertyName} has been changed from ${getValue(element.valueBefore)} to ${getValue(element.valueAfter)}`;
-    }
-    return `${makePlain(element.children, depth + 1, `${propertyName}.`)}`;
   }, []);
 
   return plainResult.join('\n');
