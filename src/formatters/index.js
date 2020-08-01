@@ -1,6 +1,6 @@
-import { makePlain } from './plain';
-import makeTree from './tree';
-import makeJson from './json';
+import { makePlain } from './plain.js';
+import makeTree from './tree.js';
+import makeJson from './json.js';
 
 const render = (diff, format) => {
   switch (format) {

@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import parse from './parsers.js';
 import createDiff from './createDiff.js';
-import render from './formatters';
+import render from './formatters/index.js';
 
 const getDataFormat = (absolutePathToFile) => path.extname(absolutePathToFile).slice(1);
 

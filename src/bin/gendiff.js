@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import commander from 'commander';
-import genDiff from '..';
+import genDiff from '../index.js';
 
 
 commander

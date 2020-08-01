@@ -13,27 +13,29 @@ const getTreeValue = (value, depth) => {
   return value;
 };
 
-const makeTree = (diff, depth = 0) => {
-  const space = `\n${'    '.repeat(depth)}`;
+const makeTree = (diff) => {
+  const iter = (diff, depth) => {
+    const space = `\n${'    '.repeat(depth)}`;
+    const tree = diff.map((element) => {
+      switch (element.status) {
+        case 'same':
+          return `${space}    ${element.name}: ${getTreeValue(element.valueBefore, depth + 1)}`;
+        case 'changed':
+          return `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`;
+        case 'deleted':
+          return `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}`;
+        case 'added':
+          return `${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`;
+        case undefined:
+          return `${space}    ${element.name}: ${iter(element.children, depth + 1)}`;
+        default:
+          throw Error('Unexpected status:', element.status);
+      }
+    });
 
-  const tree = diff.map((element) => {
-    switch (element.status) {
-      case 'same':
-        return `${space}    ${element.name}: ${getTreeValue(element.valueBefore, depth + 1)}`;
-      case 'changed':
-        return `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`;
-      case 'deleted':
-        return `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}`;
-      case 'added':
-        return `${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`;
-      case undefined:
-        return `${space}    ${element.name}: ${makeTree(element.children, depth + 1)}`;
-      default:
-        throw Error('Unexpected status:', element.status);
-    }
-  });
-
-  return `{${tree.join('')}${space}}`;
+    return `{${tree.join('')}${space}}`;
+  }
+  return iter(diff, 0);
 };
 
 export default makeTree;
