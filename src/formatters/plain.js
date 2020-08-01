@@ -8,8 +8,8 @@ const getValue = (value) => {
 
 
 export const makePlain = (diff) => {
-  const iter = (diff, route) => {
-    const plainResult = diff.map((element) => {
+  const iter = (innerDiff, route) => {
+    const plainResult = innerDiff.map((element) => {
       const ancestor = `${route}${element.name}`;
 
       switch (element.status) {
@@ -29,7 +29,7 @@ export const makePlain = (diff) => {
     }, []);
 
     return plainResult.join('\n');
-  }
+  };
   return iter(diff, '');
 };
 

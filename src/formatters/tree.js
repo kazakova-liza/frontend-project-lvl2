@@ -14,9 +14,9 @@ const getTreeValue = (value, depth) => {
 };
 
 const makeTree = (diff) => {
-  const iter = (diff, depth) => {
+  const iter = (innerDiff, depth) => {
     const space = `\n${'    '.repeat(depth)}`;
-    const tree = diff.map((element) => {
+    const tree = innerDiff.map((element) => {
       switch (element.status) {
         case 'same':
           return `${space}    ${element.name}: ${getTreeValue(element.valueBefore, depth + 1)}`;
@@ -34,7 +34,7 @@ const makeTree = (diff) => {
     });
 
     return `{${tree.join('')}${space}}`;
-  }
+  };
   return iter(diff, 0);
 };
 
