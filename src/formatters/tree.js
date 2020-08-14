@@ -24,7 +24,7 @@ const makeTree = (diff) => {
           return [
             ...acc,
             `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}`,
-            `${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`
+            `${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`,
           ];
         case 'deleted':
           return [...acc, `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}`];

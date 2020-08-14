@@ -1,7 +1,7 @@
 
-const { has, union } = pkg;
-
 import pkg from 'lodash';
+
+const { has, union } = pkg;
 
 const createDiff = (before, after) => {
   const keys1 = Object.keys(before);
