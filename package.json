@@ -5,6 +5,7 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "bin": {
     "gendiff": "src/bin/gendiff.js"
   },

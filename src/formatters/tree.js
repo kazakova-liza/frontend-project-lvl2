@@ -16,22 +16,18 @@ const getTreeValue = (value, depth) => {
 const makeTree = (diff) => {
   const iter = (innerDiff, depth) => {
     const space = `${'    '.repeat(depth)}`;
-    const tree = innerDiff.reduce((acc, element) => {
+    const tree = innerDiff.flatMap((element) => {
       switch (element.status) {
         case 'same':
-          return [...acc, `${space}    ${element.name}: ${getTreeValue(element.valueBefore, depth + 1)}`];
+          return `${space}    ${element.name}: ${getTreeValue(element.valueBefore, depth + 1)}`;
         case 'changed':
-          return [
-            ...acc,
-            `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}`,
-            `${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`,
-          ];
+          return `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}\n${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`
         case 'deleted':
-          return [...acc, `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}`];
+          return `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}`;
         case 'added':
-          return [...acc, `${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`];
+          return `${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`;
         case undefined:
-          return [...acc, `${space}    ${element.name}: ${iter(element.children, depth + 1)}`];
+          return `${space}    ${element.name}: ${iter(element.children, depth + 1)}`;
         default:
           throw Error('Unexpected status:', element.status);
       }
