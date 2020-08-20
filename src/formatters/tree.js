@@ -21,7 +21,7 @@ const makeTree = (diff) => {
         case 'same':
           return `${space}    ${element.name}: ${getTreeValue(element.valueBefore, depth + 1)}`;
         case 'changed':
-          return `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}\n${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`
+          return `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}\n${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`;
         case 'deleted':
           return `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}`;
         case 'added':
