@@ -4,9 +4,9 @@ import { readFileSync } from 'fs';
 import genDiff from '../src';
 
 
-const __dirname = path.resolve();
+const dirname = path.resolve();
 
-const getFixturePath = (filename) => path.join(__dirname, '.', '__tests__', '__fixtures__', filename);
+const getFixturePath = (filename) => path.join(dirname, '.', '__tests__', '__fixtures__', filename);
 
 describe.each([
   ['before.json', 'after.json'],
