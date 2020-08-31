@@ -12,7 +12,7 @@ export const makePlain = (diff) => {
     const plainResult = innerDiff.map((element) => {
       const ancestor = `${route}${element.name}`;
 
-      switch (element.status) {
+      switch (element.type) {
         case 'same':
           return `Property ${ancestor} has not been changed`;
         case 'changed':
@@ -21,7 +21,7 @@ export const makePlain = (diff) => {
           return `Property ${ancestor} has been deleted`;
         case 'added':
           return `Property ${ancestor} has been added with value: ${getValue(element.valueAfter)}`;
-        case undefined:
+        case 'has children':
           return `${iter(element.children, `${ancestor}.`)}`;
         default:
           throw Error('Unexpected status:', element.status);

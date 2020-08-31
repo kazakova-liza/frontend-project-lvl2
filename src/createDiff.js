@@ -16,7 +16,7 @@ const createDiff = (before, after) => {
           name: key,
           valueBefore: before[key],
           valueAfter: null,
-          status: 'deleted',
+          type: 'deleted',
         };
       }
       if (!has(before, key)) {
@@ -24,12 +24,13 @@ const createDiff = (before, after) => {
           name: key,
           valueBefore: null,
           valueAfter: after[key],
-          status: 'added',
+          type: 'added',
         };
       }
       if (typeof before[key] === 'object' && typeof after[key] === 'object') {
         return {
           name: key,
+          type: 'has children',
           children: createDiff(before[key], after[key]),
         };
       }
@@ -38,14 +39,14 @@ const createDiff = (before, after) => {
           name: key,
           valueBefore: before[key],
           valueAfter: after[key],
-          status: 'same',
+          type: 'same',
         };
       }
       return {
         name: key,
         valueBefore: before[key],
         valueAfter: after[key],
-        status: 'changed',
+        type: 'changed',
       };
     });
   return diff;

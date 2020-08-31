@@ -17,16 +17,16 @@ const makeTree = (diff) => {
   const iter = (innerDiff, depth) => {
     const space = `${'    '.repeat(depth)}`;
     const tree = innerDiff.flatMap((element) => {
-      switch (element.status) {
+      switch (element.type) {
         case 'same':
           return `${space}    ${element.name}: ${getTreeValue(element.valueBefore, depth + 1)}`;
         case 'changed':
-          return `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}\n${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`;
+          return [`${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}`, `${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`];
         case 'deleted':
           return `${space}  - ${element.name}: ${getTreeValue(element.valueBefore, depth)}`;
         case 'added':
           return `${space}  + ${element.name}: ${getTreeValue(element.valueAfter, depth)}`;
-        case undefined:
+        case 'has children':
           return `${space}    ${element.name}: ${iter(element.children, depth + 1)}`;
         default:
           throw Error('Unexpected status:', element.status);
