@@ -1,4 +1,3 @@
-
 import { readFileSync } from 'fs';
 import path from 'path';
 import parse from './parsers.js';

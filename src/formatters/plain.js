@@ -1,11 +1,9 @@
-
 const getValue = (value) => {
   if (typeof value === 'object') {
     return '[complex value]';
   }
   return value;
 };
-
 
 export const makePlain = (diff) => {
   const iter = (innerDiff, route) => {

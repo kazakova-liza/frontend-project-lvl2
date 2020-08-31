@@ -1,8 +1,6 @@
-
 import path from 'path';
 import { readFileSync } from 'fs';
 import genDiff from '../src';
-
 
 const dirname = path.resolve();
 

@@ -1,4 +1,3 @@
-
 const transformObjToString = (obj, depth) => {
   const keys = Object.keys(obj);
   const space = `\n${'    '.repeat(depth + 1)}`;

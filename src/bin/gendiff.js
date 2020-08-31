@@ -3,7 +3,6 @@
 import commander from 'commander';
 import genDiff from '../index.js';
 
-
 commander
   .version('0.1.0')
   .description('Compares two configuration files and shows a difference.')

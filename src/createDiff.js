@@ -1,4 +1,3 @@
-
 import pkg from 'lodash';
 
 const { has, union } = pkg;
